@@ -25,12 +25,13 @@ const userSchema = new mongoose.Schema({
         index:true
     },
     age:{
-        type:Number
+        type:String
     },
     organization:{
         type:String,
         lowercase:true,
         trim:true,
+        required:true
     },
     github:{
         type:String,
@@ -53,6 +54,10 @@ const userSchema = new mongoose.Schema({
     coverImage:{
         type:String, // cloudinary url
     },
+    isAdmin:{
+        type:Boolean,
+        default:false
+    }
 },{timestamps:true})
 
 
