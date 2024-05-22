@@ -182,6 +182,29 @@ const logoutUser = asyncHandler(async(req,res)=>{
     )
 })
 
+const changeCurrentPassword =  asyncHandler(async (req,res)=>{
+    const {oldPassword,newPassword} = req.body;
+
+    // now like in logout i can use the user which was put in 
+    // req body by verifyJWT middleware since i will be using it
+
+    const user = await User.findById(req.user?._id)
+    const isPasswordCorrect= await user.isPasswordCorrect(oldPassword)
+    if(!isPasswordCorrect){
+        throw new  ApiError(400,"old password does not match")
+    }
+    
+    user.password = newPassword
+    await user.save({validateBeforeSave:false}); 
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,{},"Password changed successfully")
+    )
+
+})
+
 const refreshAcessToken = asyncHandler(async (req,res)=>{
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     if(!incomingRefreshToken){
@@ -226,5 +249,10 @@ const refreshAcessToken = asyncHandler(async (req,res)=>{
     }
 })
 
+const getCurrentUser = asyncHandler(async(req,res)=>{
+    return res
+    .status(200)
+    .json(new ApiResponse(200,req.user,"fetched user sucesssfully"))
+})
 
-export { registerUser ,loginUser ,logoutUser}
+export { registerUser ,loginUser ,logoutUser,changeCurrentPassword,refreshAcessToken,getCurrentUser}
