@@ -1,1 +1,1 @@
-#Online Judge to submit and solve problems
+#Online Judge
