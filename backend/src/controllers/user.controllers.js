@@ -5,6 +5,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 
+
 const generateAcessAndRefreshToken = async(userId) =>{
     try {
         const user = await User.findById(userId)
@@ -255,4 +256,18 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,req.user,"fetched user sucesssfully"))
 })
 
-export { registerUser ,loginUser ,logoutUser,changeCurrentPassword,refreshAcessToken,getCurrentUser}
+const updateAccountDetails = asyncHandler(async (req,res)=>{
+    
+    const user = await User.findByIdAndUpdate(req.user?._id,{
+        $set:{
+           ...req.updateDetails
+        }
+    }, {new:true})
+    .select("-password")
+
+    return res
+    .status(200)
+    .json(200, new ApiResponse(200,user,"Account Details updated successfully"))
+})
+
+export { registerUser ,loginUser ,logoutUser,changeCurrentPassword,refreshAcessToken,getCurrentUser,updateAccountDetails}
