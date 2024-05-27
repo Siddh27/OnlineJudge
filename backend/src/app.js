@@ -8,11 +8,9 @@ app.use(cors({
     origin:process.env.CORS_ORIGIN // this is from where your backend can accept requests (frontend), 
 }))
 
-app.use(express.json({
-    limit:"16kb"
-}))
+app.use(express.json())
 
-app.use(express.urlencoded({extended:true,limit:"16kb"}))
+app.use(express.urlencoded({extended:true}))
 
 app.use(express.static("public"))
 

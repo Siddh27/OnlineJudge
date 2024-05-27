@@ -4,6 +4,7 @@ const problemSchema = new mongoose.Schema({
     title:{
         type:String,
         required:true,
+        unique:true
     },
     description:{
         type:String,
@@ -11,7 +12,8 @@ const problemSchema = new mongoose.Schema({
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required:true,
     },
     topic:{
         type:String,
@@ -20,7 +22,7 @@ const problemSchema = new mongoose.Schema({
     difficulty:{
         type:String,
         enum:['Easy','Medium','Hard'],
-        required:true
+        required:true,
     },
     testcase:{
         type:mongoose.Schema.Types.ObjectId,
