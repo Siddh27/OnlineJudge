@@ -4,9 +4,12 @@ import cors from "cors"
 
 const app = express()
 
-app.use(cors({
-    origin:process.env.CORS_ORIGIN // this is from where your backend can accept requests (frontend), 
-}))
+const corsOptions = {
+    origin: 'http://localhost:5173', // Frontend origin
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  };
+  
+app.use(cors(corsOptions));
 
 app.use(express.json())
 

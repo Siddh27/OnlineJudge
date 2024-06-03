@@ -109,13 +109,13 @@ const loginUser =  asyncHandler(async (req,res)=>{
     // send the acess and refresh token to the user
     // via cookies
 
-    const {email,username,password} = req.body;
-    if(!(username || email)){
+    const {username,password} = req.body;
+    if(!(username)){
         throw new ApiError(400,"username or email is required")
     }
 
     const user = await User.findOne({
-        $or:[{username},{email}] // find based or username or email
+        $or:[{username:username},{email:username}] // find based or username or email
     })
 
     if(!user){
