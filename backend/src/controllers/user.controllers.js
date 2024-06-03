@@ -37,6 +37,7 @@ const registerUser = asyncHandler( async (req,res)=>{
     
     const {fullName,email,username,password,age,organization,github,linkedIn} =req.body
 
+
     // validation will add zod validation
     if(
         [fullName,email,username,password,organization].some((field)=>
@@ -52,29 +53,31 @@ const registerUser = asyncHandler( async (req,res)=>{
     if(userExists){
         throw new ApiError(409,"User with email or username exists")
     }
-
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
-
+    
+    let coverImageLocalPath;
+    if(req.files?.coverImage){
+       coverImageLocalPath = req.files?.coverImage[0]?.path
+    }
     let resumeLocalPath;
     if(req.files && Array.isArray(req.files.resume) && req.files.resume.length >0){
         resumeLocalPath = req.files.resume[0].path;
     }
-
-    if(!coverImageLocalPath){
-        throw new ApiError(400,"coverImage file is required");
+    let coverImage;
+    if (coverImageLocalPath) {
+        coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    } 
+    let resume;
+    if (resumeLocalPath) {
+        resume = await uploadOnCloudinary(resumeLocalPath)
     }
-
-    const coverImage  = await uploadOnCloudinary(coverImageLocalPath)
-    const resume = await uploadOnCloudinary(resumeLocalPath)
-    if(!coverImage){
-        throw new ApiError(400,"coverImage file is required");
-    }
-
-
+    let flag1=false
+    let flag2=false
+    if(resume) flag1=true
+    if(coverImage) flag2=true;
     const user = await User.create({
         fullName,
-        resume:resume?.url,  //|| "",
-        coverImage:coverImage.url,
+        resume:flag1?resume.url:"" , //|| "",
+        coverImage:flag2?coverImage.url:"",
         email,
         password,
         age:age || "",

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import codingImage from '../assets/codingImage.png'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import axios  from 'axios'
 function SignUp() {
     const [data,setData] = useState({
         fullName:"",
@@ -13,19 +14,35 @@ function SignUp() {
         password:"",
     })
 
+    const navigate = useNavigate()
+
+    const registerButtonRef = useRef()
+
     const registerURL = 'http://localhost:8000/api/v1/users/register'
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
         try {
-            const response = await axios.post(registerURL,{data});
-            if(response.status ==200){
-                console.log('Register successful')
+            const response = await axios.post(registerURL,{...data});
+            if(response){
+                console.log(response.data.message)
             }
+            if(registerButtonRef.current){
+                registerButtonRef.current.textContent = 'Registered!'
+            }
+            setData({
+                fullName:"",
+                age:"",
+                username:"",
+                organization:"",
+                email:"",
+                github:"",
+                linkedIn:"",
+                password:"",
+            })
+            navigate('/login')
         } catch (error) {
-            console.log('Failed login')
-            // console.log(response)
-            // console.log(error)
+            
         }
     }
 
@@ -127,7 +144,7 @@ function SignUp() {
                         />
                         </div>
                         <div className="mt-5">
-                            <button onClick={handleSubmit} className='w-full bg-yellow-300 py-3 text-center text-white'>Register</button>
+                            <button ref={registerButtonRef} onClick={handleSubmit} className='w-full bg-yellow-300 py-3 text-center text-white'>Register</button>
                         </div>
                     </form>
                 </div>
