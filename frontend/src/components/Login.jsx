@@ -32,6 +32,7 @@ function Login() {
                 username:"",
                 password:"",
             })
+            navigate('/user/home')
         } catch (error) {
             console.log(error)
         }

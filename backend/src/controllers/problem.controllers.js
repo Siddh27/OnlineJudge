@@ -3,6 +3,8 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import {Problem} from "../models/problem.models.js"
 import { User } from "../models/user.models.js";
+import generateFile from "../utils/generateFile.js";
+import {executeCpp,executePython,executeJava} from '../utils/executeFile.js'
 
 
 const addProblem = asyncHandler(async (req,res)=>{
@@ -84,4 +86,30 @@ const deleteProblem = asyncHandler(async(req,res)=>{
     )
 })
 
-export {addProblem,updateProblem,getProblem,deleteProblem}
+const runProblem  = asyncHandler(async (req,res)=>{
+    const {language='cpp',code } = req.body
+    let  filePath;
+    if(!code){
+        throw new ApiError(400,"Code is required")
+    }
+    let output;
+    try {
+        filePath  = generateFile(language,code);
+        
+        if(language=='cpp'){
+            output  = await executeCpp(filePath)
+        }
+        else if(language=='python'){
+            output = await executePython(filePath)
+        }
+        else{
+            output = await  executeJava(filePath)
+        }
+        res.status(200).json(new ApiResponse(200,{filePath,output}))
+    } catch (error) {
+        
+    }
+   
+})
+
+export {addProblem,updateProblem,getProblem,deleteProblem,runProblem}
