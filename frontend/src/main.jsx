@@ -7,6 +7,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import SignUp from './components/SignUp.jsx'
 import Login from './components/Login.jsx'
 import HomePage from './components/HomePage.jsx'
+import SubmitProblem from './components/SubmitProblem.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login/>}></Route>
       <Route path='user' element = {<Layout/>}> 
           <Route path='home' element={<HomePage/>}></Route>
+          <Route path='submit' element={<SubmitProblem/>}></Route>
       </Route>
     </Route>
 

@@ -49,7 +49,7 @@ const updateProblem = asyncHandler(async (req,res)=>{
 })
 
 const getProblem = asyncHandler(async(req,res)=>{
-    const {title} = req.body
+    const title = req.query.title
     if(!title){
         throw new ApiError(500,"title is required")
     }
