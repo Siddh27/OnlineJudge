@@ -2,13 +2,34 @@ import React from 'react'
 import { NavLink,Link } from 'react-router-dom'
 import { useState } from 'react';
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 function Navbar() {
     const [isMenuOpen,setIsMenuOpen]  = useState(false)
 
+    const navigate = useNavigate()
     const toggleMenu = ()=>{
         setIsMenuOpen((isMenuOpen)=>!isMenuOpen)
+    }
+
+    const handleLogout = async()=>{
+        const answer = window.confirm('Are you sure you want to logout')
+        if(answer){
+            let logoutURL = `http://localhost:8000/api/v1/users/logout`;
+            const response = await axios.post(logoutURL,{},{
+                withCredentials: true // Important: Include credentials
+              });
+            if(response && response.status==200){
+                window.alert(`User logged out successfully`);
+                navigate('../../login')
+            }
+        }
+        else{
+            alert(`Error while loggin out`)
+            return;
+        }
     }
     return(
         <nav className='bg-customBlue p-4'>
@@ -29,8 +50,8 @@ function Navbar() {
                 <li>
                 <NavLink to={'Problem'} className='text-white'>MyProfile</NavLink>
                 </li>
-                <li>
-                <NavLink to={'Problem'} className='text-white'>Logout</NavLink>
+                <li onClick={handleLogout} className='py-2 hover:shadow-lg hover:cursor-pointer text-white  hover:bg-customDark'>
+                    Logout
                 </li>
             </ul>
         </div>
@@ -44,8 +65,8 @@ function Navbar() {
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
             <NavLink to={'Problem'} className='text-white'>MyProfile</NavLink>
             </li>
-            <li className='py-2 hover:shadow-lg hover:bg-customDark'>
-            <NavLink to={'Problem'} className='text-white'>Logout</NavLink>
+            <li onClick={handleLogout} className='py-2 hover:shadow-lg hover:cursor-pointer text-white  hover:bg-customDark'>
+              Logout
             </li>
         </ul>
         ):null}
