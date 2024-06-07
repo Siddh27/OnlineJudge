@@ -3,7 +3,7 @@ import { registerUser ,loginUser, logoutUser, changeCurrentPassword, refreshAces
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 import { createUpdateDetails, problemUpdateDetails } from "../middlewares/update.middleware.js";
-import { addProblem, deleteProblem, getProblem, runProblem, updateProblem } from "../controllers/problem.controllers.js";
+import { addProblem, deleteProblem, getAllProblems, getProblem, runProblem, updateProblem } from "../controllers/problem.controllers.js";
 const router = Router()
 
 router.route("/register").post(upload.fields([
@@ -35,5 +35,6 @@ router.route('/updateProblem').patch(verifyJWT,problemUpdateDetails,updateProble
 router.route('/getProblem').get(verifyJWT,getProblem)
 router.route('/deleteProblem').delete(verifyJWT,deleteProblem)
 router.route('/runProblem').post(verifyJWT,runProblem)
+router.route('/getAllProblems').get(verifyJWT,getAllProblems)
 
 export default router

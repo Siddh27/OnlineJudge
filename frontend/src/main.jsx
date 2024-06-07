@@ -8,6 +8,8 @@ import SignUp from './components/SignUp.jsx'
 import Login from './components/Login.jsx'
 import HomePage from './components/HomePage.jsx'
 import SubmitProblem from './components/SubmitProblem.jsx'
+import ProblemList from './components/ProblemList.jsx'
+import AddProblem from './components/AddProblem.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,7 +18,9 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login/>}></Route>
       <Route path='user' element = {<Layout/>}> 
           <Route path='home' element={<HomePage/>}></Route>
-          <Route path='submit' element={<SubmitProblem/>}></Route>
+          <Route path='submit/:title' element={<SubmitProblem/>}></Route>
+          <Route path='problemList' element={<ProblemList/>}></Route>
+          <Route path='addProblem' element={<AddProblem/>}></Route>
       </Route>
     </Route>
 

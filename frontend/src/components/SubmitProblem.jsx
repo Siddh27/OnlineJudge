@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 function SubmitProblem() {
 
@@ -10,6 +11,7 @@ function SubmitProblem() {
             return 0;
         }
     `)
+    const {title} = useParams() 
 
     const [code,setCode] = useState('')
 
@@ -30,7 +32,7 @@ function SubmitProblem() {
 
     useEffect(()=>{
         const fetchData = async()=>{
-            let url  = `http://localhost:8000/api/v1/users/getProblem?title=Add two numbers`
+            let url  = `http://localhost:8000/api/v1/users/getProblem?title=${title}`
             const response = await axios.get(url,{
                 withCredentials:true
             })
@@ -47,7 +49,6 @@ function SubmitProblem() {
 
     const languageHandler = (event)=>{
         let lang = event.target.value
-        console.log(lang)
         setLanguage(lang)
     }
 
@@ -78,7 +79,7 @@ function SubmitProblem() {
                         Description
                     </div>
                     <div className='text-white ml-3 '>
-                         {data.desciption}
+                         {data.description}
                     </div>
                     <div className='m-3 text-lg text-slate-1000 underline'>
                         Topic

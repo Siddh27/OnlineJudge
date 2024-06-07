@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,Link } from 'react-router-dom'
 import { useState } from 'react';
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -14,7 +14,7 @@ function Navbar() {
         <nav className='bg-customBlue p-4'>
         <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="text-white text-2xl font-bold">Online Judge</div>
+           <Link to='../user/home'> <div className="text-white text-2xl font-bold">Online Judge</div></Link>
 
             <div className="md:hidden">
                 <button onClick={toggleMenu} className='text-white'>
@@ -24,7 +24,7 @@ function Navbar() {
 
             <ul className='hidden md:flex space-x-4 '>
                 <li>
-                    <NavLink to={'Problem'} className='text-white'>Problems</NavLink>
+                    <NavLink to={'/user/problemList'} className='text-white'>Problems</NavLink>
                 </li>
                 <li>
                 <NavLink to={'Problem'} className='text-white'>MyProfile</NavLink>
@@ -39,7 +39,7 @@ function Navbar() {
         {isMenuOpen?(
             <ul className='flex-col md:hidden'>
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
-                <NavLink to={'Problem'} className='text-white'>Problems</NavLink>
+                <NavLink to={'/user/problemList'} className='text-white'>Problems</NavLink>
             </li>
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
             <NavLink to={'Problem'} className='text-white'>MyProfile</NavLink>

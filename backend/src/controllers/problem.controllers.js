@@ -8,12 +8,11 @@ import {executeCpp,executePython,executeJava} from '../utils/executeFile.js'
 
 
 const addProblem = asyncHandler(async (req,res)=>{
-    const {title,description,username,topic,difficulty} =req.body;
-    console.log(username);
+    const {title,description,author,topic,difficulty} =req.body;
     const user =  await User.findOne({
-        username
+        username:author
     })
-    console.log(user);
+    console.log('reached here',author,user)
     const addedProblem = await Problem.create({
         title,
         description,
@@ -112,4 +111,9 @@ const runProblem  = asyncHandler(async (req,res)=>{
    
 })
 
-export {addProblem,updateProblem,getProblem,deleteProblem,runProblem}
+const getAllProblems  = asyncHandler(async (req,res)=>{
+    const problems = await Problem.find()
+    res.status(200).json(new ApiResponse(200,problems,'fetched all problems'))
+})
+
+export {addProblem,updateProblem,getProblem,deleteProblem,runProblem,getAllProblems}
