@@ -31,8 +31,9 @@ const addProblem = asyncHandler(async (req,res)=>{
 
 const updateProblem = asyncHandler(async (req,res)=>{
     const title = req.updateProblemDetails.title
-    console.log(req.updateProblemDetails);
-    const updatedProblem = await Problem.findOneAndUpdate(title,{
+    const updatedProblem = await Problem.findOneAndUpdate({
+        title:title
+    },{
         $set:{
             ...req.updateProblemDetails
         }

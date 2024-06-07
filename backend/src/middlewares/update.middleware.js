@@ -18,15 +18,15 @@ export const createUpdateDetails = asyncHandler(async (req,_,next)=>{
 
 
 export const problemUpdateDetails =asyncHandler(async (req,res,next)=>{
-    const {title,description,username,topic,difficulty} =req.body;
-    const updateProblemDetails  = {}
+    let {title,description,author,topic,difficulty} =req.body;
+    req.updateProblemDetails  = {}
     if(!title){
         throw new ApiError(400,"Title is required")
     }
-    if(description) updateProblemDetails.description=description
-    if(username) updateProblemDetails.username = username
-    if(topic) updateProblemDetails.topic = topic
-    if(difficulty) updateProblemDetails = difficulty
-    req.updateProblemDetails=updateProblemDetails
+    req.updateProblemDetails.title = title
+    if(description) req.updateProblemDetails.description=description
+    if(author) req.updateProblemDetails.username = author
+    if(topic) req.updateProblemDetails.topic = topic
+    if(difficulty) req.updateProblemDetails.difficulty = difficulty
     next()
 })

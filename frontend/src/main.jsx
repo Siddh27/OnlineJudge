@@ -10,6 +10,7 @@ import HomePage from './components/HomePage.jsx'
 import SubmitProblem from './components/SubmitProblem.jsx'
 import ProblemList from './components/ProblemList.jsx'
 import AddProblem from './components/AddProblem.jsx'
+import UpdateProblem from './components/UpdateProblem.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
           <Route path='submit/:title' element={<SubmitProblem/>}></Route>
           <Route path='problemList' element={<ProblemList/>}></Route>
           <Route path='addProblem' element={<AddProblem/>}></Route>
+          <Route path='updateProblem/:title' element={<UpdateProblem/>}></Route>
       </Route>
     </Route>
 
