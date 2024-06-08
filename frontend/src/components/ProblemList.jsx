@@ -31,8 +31,9 @@ function ProblemList() {
         try {
             if(answer){
                 let deleteURL = `http://localhost:8000/api/v1/users/deleteProblem`
-                const response = await axios.delete(deleteURL,{title:title},{withCredentials:true})
+                const response = await axios.delete(deleteURL,{data:{title:title},withCredentials:true})
                 if(response && response.status==200){
+                    console.log(response.status)
                     alert('Problem deleted Successfully')
                     Navigate('../user/ProblemList')
                 }
