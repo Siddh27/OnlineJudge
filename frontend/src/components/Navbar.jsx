@@ -45,12 +45,15 @@ function Navbar() {
 
             <ul className='hidden md:flex space-x-4 '>
                 <li>
-                    <NavLink to={'/user/problemList'} className='text-white'>Problems</NavLink>
+                    <NavLink to={'/user/home'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Home</NavLink>
                 </li>
                 <li>
-                <NavLink to={'Problem'} className='text-white'>MyProfile</NavLink>
+                    <NavLink to={'/user/problemList'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Problems</NavLink>
                 </li>
-                <li onClick={handleLogout} className='py-2 hover:shadow-lg hover:cursor-pointer text-white  hover:bg-customDark'>
+                <li>
+                <NavLink to={'../user/profile'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>MyProfile</NavLink>
+                </li>
+                <li onClick={handleLogout} className=' hover:shadow-lg hover:cursor-pointer text-white  hover:bg-customDark'>
                     Logout
                 </li>
             </ul>
@@ -59,11 +62,14 @@ function Navbar() {
         {/* Mobile Menu */}
         {isMenuOpen?(
             <ul className='flex-col md:hidden'>
-            <li className='py-2 hover:shadow-lg hover:bg-customDark'>
-                <NavLink to={'/user/problemList'} className='text-white'>Problems</NavLink>
+             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
+                <NavLink to={'/user/home'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Home</NavLink>
             </li>
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
-            <NavLink to={'Problem'} className='text-white'>MyProfile</NavLink>
+                <NavLink to={'/user/problemList'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Problems</NavLink>
+            </li>
+            <li className='py-2 hover:shadow-lg hover:bg-customDark'>
+            <NavLink to={'../user/profile'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>MyProfile</NavLink>
             </li>
             <li onClick={handleLogout} className='py-2 hover:shadow-lg hover:cursor-pointer text-white  hover:bg-customDark'>
               Logout
