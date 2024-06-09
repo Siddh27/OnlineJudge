@@ -23,6 +23,10 @@ const executeCpp = (filePath)=>{
         exec(
         `g++ ${filePath} -o ${outputPath} && cd ${dirCodes} && .\\${outputFileName}`,
         (error,stdout,stderr)=>{
+            fs.unlinkSync(filePath)
+            if(outputPath){
+                fs.unlinkSync(outputPath)
+            }
            if(error){
              rej(error)
            } 
@@ -40,6 +44,7 @@ const executePython = (filePath)=>{
         exec(
         `python ${filePath}`,
         (error,stdout,stderr)=>{
+            fs.unlinkSync(filePath)
            if(error){
              rej(error)
            } 
@@ -54,6 +59,10 @@ const executePython = (filePath)=>{
 
 const executeJava = (filePath)=>{
     return new Promise((res,rej)=>{
+        fs.unlinkSync(filePath)
+        if(outputPath){
+            fs.unlinkSync(outputPath)
+        }
         exec(
         `java ${filePath}`,
         (error,stdout,stderr)=>{

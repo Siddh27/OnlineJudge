@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import CodeMirror, { ViewUpdate, keymap } from '@uiw/react-codemirror';
+import { vscodeDark, vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
+import { python } from '@codemirror/lang-python';
+import { cpp } from '@codemirror/lang-cpp';
+import { autocompletion } from '@codemirror/autocomplete';
+import {java} from '@codemirror/lang-java'
 
 function SubmitProblem() {
 
@@ -13,7 +19,7 @@ function SubmitProblem() {
     `)
     const {title} = useParams() 
 
-    const [code,setCode] = useState('')
+    const [code,setCode] = useState('Hello World!')
 
     const [language,setLanguage] = useState('cpp')
 
@@ -52,11 +58,6 @@ function SubmitProblem() {
         setLanguage(lang)
     }
 
-    const codeHandler = (event)=>{
-        let c = event.target.value
-        setCode(c)
-    }
-
     const handleRun =  async()=>{
         let url = `http://localhost:8000/api/v1/users/runProblem`
         const response = await axios.post(url,{code,language},{
@@ -64,7 +65,9 @@ function SubmitProblem() {
           });
         if(response && response.status==200 ){
             setOutput(response.data.data.output)
-            
+        }
+        else{
+            alert()
         }
     }
     
@@ -126,7 +129,7 @@ function SubmitProblem() {
                 </div>
 
                 
-                <div className='w-1/2 bg-customProblem  p-3'>
+                <div className='w-1/2 bg-customProblem  p-3 overflow-auto'>
                         <div className='text-center font-bold italic p-3 text-white text-2xl'>Code</div>
                         <div className='text-center'>
                             <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Choose Language</label>
@@ -144,7 +147,34 @@ function SubmitProblem() {
                                     <option value="java">Java</option>
                                 </select>
                         </div>
-                        <textarea className='h-2/5 w-full bg-gray-100 border border-gray-300 rounded-lg shadow-lg p-3 mt-2' onChange={codeHandler} ></textarea>
+                        {/* className='h-2/5 w-full bg-gray-100 border border-gray-300 rounded-lg shadow-lg p-3 mt-2' onChange={codeHandler} */}
+                        {language=='python'?<CodeMirror 
+                        theme={vscodeDark}
+                        extensions={[python(),autocompletion()]}
+                        height='200px'
+                        onChange={(value,ViewUpdate)=>{
+                            setCode(value)
+                        }}
+                        
+                         />:''}
+                         {language=='cpp'?<CodeMirror 
+                        theme={vscodeDark}
+                        extensions={[cpp(),autocompletion()]}
+                        height='200px'
+                        onChange={(value,ViewUpdate)=>{
+                            setCode(value)
+                        }}
+                         />:''}
+
+                        {language=='java'?<CodeMirror 
+                        theme={vscodeDark}
+                        extensions={[java(),autocompletion()]}
+                        height='200px'
+                        onChange={(value,ViewUpdate)=>{
+                            setCode(value)
+                        }}
+                        />:''}
+                        
                         <div className='text-center font-bold italic mt-8 text-white text-2xl'>Output</div>
                         <div className='bg-gray-500 h-1/5 mt-3 rounded-lg shadow-large text-white'>
                             {output}

@@ -35,7 +35,7 @@ function ProblemList() {
                 if(response && response.status==200){
                     console.log(response.status)
                     alert('Problem deleted Successfully')
-                    Navigate('../user/ProblemList')
+                    window.location.reload()
                 }
                 else{
                     throw new Error()

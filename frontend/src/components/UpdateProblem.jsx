@@ -49,6 +49,7 @@ function UpdateProblem() {
     const handleSubmit = async ()=>{
         if(data.author==''){
             window.alert('Author is required')
+            return;
         }
         let url = `http://localhost:8000/api/v1/users/updateProblem`
         const response= await axios.patch(url,{...data},{
@@ -79,7 +80,7 @@ function UpdateProblem() {
                 <input name='description' value={data.description} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Description' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <input name='author' value={data.author} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Author' />
+                <input disabled name='author' value={data.author} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Author' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
                 <input name='topic' value={data.topic} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Topic' />
