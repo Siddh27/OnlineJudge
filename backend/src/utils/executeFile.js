@@ -25,6 +25,7 @@ const executeCpp = (filePath,inputPath)=>{
         (error,stdout,stderr)=>{
             if(fs.existsSync(filePath)){
                 fs.unlinkSync(filePath)
+                console.log('reached')
             }
             if(fs.existsSync(outputPath)){
                 fs.unlinkSync(outputPath)
@@ -49,10 +50,12 @@ const executePython = (filePath,inputPath)=>{
         exec(
         `python ${filePath} < ${inputPath}`,
         (error,stdout,stderr)=>{
-            // fs.unlinkSync(filePath)
-            // if(fs.existsSync(inputPath)){
-            //     fs.unlinkSync(inputPath)
-            // }
+            if(fs.existsSync(filePath)){
+                fs.unlinkSync(filePath)
+            }
+            if(fs.existsSync(inputPath)){
+                fs.unlinkSync(inputPath)
+            }
            if(error){
              rej(error)
            } 
