@@ -38,7 +38,7 @@ function ProfilePage() {
             }
         }
         fetchUserData()
-    })
+    },[])
 
   return (
     <>
@@ -51,13 +51,13 @@ function ProfilePage() {
                 <div className=" w-2/4 h-1/4 mt-4 mx-auto">
                     <img  className = 'w-full  h-full object-cover' src={data.coverImage?data.coverImage:blankProfile} alt="" />
                 </div>
-                <div className="text-center pt-5 text-xl font-bold italic">
+                <div className="text-center overflow-auto pt-5 text-xl font-bold italic">
                     LinkedIn
                     <div className="text-white">
                     <a  className="underline" target="_blank" href={`https://${data.linkedIn}`}>{data.linkedIn}</a>
                     </div>
                 </div>
-                <div className="text-center pt-5 text-xl font-bold italic">
+                <div className="text-center overflow-auto pt-5 text-xl font-bold italic">
                     Github
                     <div className="text-white">
                         <a className="underline"  target="_blank" href={`https://${data.github}`}>{data.github}</a>

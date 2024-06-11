@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
     },
     organization:{
         type:String,
-        lowercase:true,
         trim:true,
         required:true
     },

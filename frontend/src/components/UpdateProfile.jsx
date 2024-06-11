@@ -2,9 +2,32 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
-
+import { CiEdit } from "react-icons/ci";
+import { useEffect } from 'react';
 
 function UpdateProfile() {
+
+
+  useEffect(()=>{
+    const fetchUserData = async(req,res)=>{
+        let url  = `http://localhost:8000/api/v1/users/getUser`
+        const response = await axios.get(url,{
+            withCredentials:true
+        })
+        if(response && response.status==200){
+            let fetchedData = response.data.data
+            let updatedObject = {}
+            for(let d in data){
+                updatedObject[d] = fetchedData[d]
+            }
+            setData(updatedObject)
+        }
+    }
+    fetchUserData()
+  },[])
+
+
+
     const navigate  = useNavigate()
 
     const [data,setData] = useState({
@@ -19,20 +42,16 @@ function UpdateProfile() {
     })
 
     const handleSumbit = async()=>{
-        for(let d in data){
-            if(data[d]==''){
-                window.alert(`${d} required`)
-                return;
-            }   
-        }
-        let url = `http://localhost:8000/api/v1/users/addProblem`
-        const response= await axios.post(url,{...data},{
-            withCredentials: true // Important: Include credentials
-          });
+        const confirm = window.confirm('Are you sure you want to update your profile?')
+        if(!confirm) return;
+        let url = `http://localhost:8000/api/v1/users/updateUserDetails`
+        const response= await axios.patch(url,{...data},{
+          withCredentials: true // Important: Include credentials
+        });
         if(response && response.status==200){
         // window.alert('Problem added successfully')
-        window.alert('Added Problem SucessFully')
-        navigate('../ProblemList')
+        window.alert('Updated Profile SucessFully')
+        navigate('../Profile')
         }
         else{
             window.alert('Some error occured while addding the problem');
@@ -46,46 +65,38 @@ function UpdateProfile() {
             }
         ))
     }
+
     return (
         <>
-         <div className='bg-slate-500 h-screen '>
+         <div className='bg-slate-500 h-screen scroll-auto '>
             <div className='text-center text-2xl p-3 font-bold text-white italic'>
-                Add Problem
+                Update Profile
             </div>
            <div className='flex flex-wrap container  w-fit h-fit mx-auto p-2 '>
               <div className=' text-white w-1/2 mb-5 text-lg'>
-                <input  name='title' value={data.title} onChange={handleChange} required className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Title' />
+                <input disabled  name='username' value={data.username} onChange={handleChange} required className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Username' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <input name='description' value={data.description} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Description' />
+                <input name='email' value={data.email} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Email' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <input name='author' value={data.author} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Author' />
+                <input disabled name='fullName' value={data.fullName} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Full Name' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <input name='topic' value={data.topic} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Topic' />
+                <input  name='age' value={data.age} onChange={handleChange} className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Age' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <textarea name='inputTestCases' value={data.inputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='inputTestCases' />
+                <input name='organization' value={data.organization} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Organization' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <textarea name='outputTestCases' value={data.outputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='outputTestCases' />
+                <input name='linkedIn' value={data.linkedIn} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='LinkedIn URL' />
               </div>
-              <div className=' text-white ml-2 w-1/2 mb-5 text-lg'>
-              <label htmlFor="countries" className="block mb-2 text-lg font-medium text-customDark ">Difficulty</label>
-                                <select id="countries"
-                                defaultValue={'cpp'}
-                                name='difficulty' value={data.difficulty} onChange={handleChange}
-                                className="
-                                bg-customDark border border-gray-300 text-gray-400 text-md rounded-lg p-2.5 ">
-                                    <option value="Easy" onClick={()=>setData({...data,difficulty:"Easy"})}>Easy</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Hard">Hard</option>
-                                </select>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <input name='github' value={data.github} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Github URL' />
               </div>
            </div>
            <div className='text-white ml-2  mb-5 text-lg text-center'>
-              <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={handleSumbit}>Add Problem</button>
+              <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={handleSumbit}>Update Profile <CiEdit className='inline text-xl' /></button>
               </div>
          </div>
         </>
