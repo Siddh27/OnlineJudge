@@ -12,6 +12,11 @@ function UpdateProblem() {
         author:'',
         topic:'',
         difficulty:'Easy',
+        inputTestCases:'',
+        outputTestCases:'',
+        inputFormat:'',
+        expectedOutput:'',
+        constraints:'',
     })
 
     const navigate = useNavigate()
@@ -84,6 +89,21 @@ function UpdateProblem() {
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
                 <input name='topic' value={data.topic} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Topic' />
+              </div>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <textarea name='inputTestCases' value={data.inputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2  rounded-lg overflow-auto w-full shadow-lg' placeholder='inputTestCases' />
+              </div>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <textarea name='outputTestCases' value={data.outputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='outputTestCases' />
+              </div>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <textarea name='inputFormat' value={data.inputFormat} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Input Format' />
+              </div>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <textarea name='expectedOutput' value={data.expectedOutput} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='ExpectedOutput' />
+              </div>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <textarea name='constraints' value={data.constraints} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Constraints' />
               </div>
               <div className=' text-white ml-2 w-1/2 mb-5 text-lg'>
               <label htmlFor="countries" className="block mb-2 text-lg font-medium text-customDark ">Difficulty</label>

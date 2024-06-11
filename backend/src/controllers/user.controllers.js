@@ -37,7 +37,7 @@ const registerUser = asyncHandler( async (req,res)=>{
     
     const {fullName,email,username,password,age,organization,github,linkedIn} =req.body
 
-
+    console.log(req.body)
     // validation will add zod validation
     if(
         [fullName,email,username,password,organization].some((field)=>

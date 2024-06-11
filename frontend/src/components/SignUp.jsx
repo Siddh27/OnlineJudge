@@ -11,8 +11,10 @@ function SignUp() {
         email:"",
         github:"",
         linkedIn:"",
-        password:"",
+        password:""
     })
+
+    const [coverImage,setCoverImage] = useState(null)
 
     const [filledCorrectly,setfilledCorrectly] = useState(true)
     const [responseMessage,setResponseMessage] = useState('')
@@ -25,9 +27,9 @@ function SignUp() {
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
-        let response;
         try {
-             response= await axios.post(registerURL,{...data});
+            
+             response= await axios.post(registerURL,{...formData});
             if(response){
                 console.log(response.data.message)
             }
@@ -44,7 +46,7 @@ function SignUp() {
                 linkedIn:"",
                 password:"",
             })
-            navigate('/login')
+            // navigate('/login')
         } catch (error) {
             console.log(error.message)
             // setResponseMessage(response.data.message)
@@ -60,6 +62,12 @@ function SignUp() {
         ))
         
     }
+
+    const handleFileChange = (e) =>{
+        setCoverImage(e.target.files[0])
+    }
+
+   
 
     const bgStyle = {
         backgroundImage:'linear-gradient(115deg,#050C9C,#A7E6FF)'
@@ -147,6 +155,15 @@ function SignUp() {
                         value={data.github}
                         onChange={handleChange}
                         />
+                        <label htmlFor="coverImage" className='pr-2'>Cover Image</label>
+                        <input 
+                        type="file"
+                         name="coverImage" 
+                         id="coverImage" 
+                         className="mt-2"
+                         value={data.coverImage} 
+                         onChange={handleFileChange}
+                         />
                         </div>
                         <div className="mt-5">
                             <button ref={registerButtonRef} onClick={handleSubmit} className='w-full bg-yellow-300 py-3 text-center text-white'>Register</button>

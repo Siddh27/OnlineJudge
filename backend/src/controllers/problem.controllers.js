@@ -5,22 +5,28 @@ import {Problem} from "../models/problem.models.js"
 import { User } from "../models/user.models.js";
 import generateFile from "../utils/generateFile.js";
 import {executeCpp,executePython,executeJava} from '../utils/executeFile.js'
+import generateInputFile from "../utils/generateInputFile.js";
 
 
 const addProblem = asyncHandler(async (req,res)=>{
-    const {title,description,author,topic,difficulty} =req.body;
+    const {title,description,author,topic,difficulty,inputTestCases,outputTestCases,inputFormat,expectedOutput,constraints} =req.body;
     const user =  await User.findOne({
         username:author
     })
-    console.log('reached here',author,user)
+    // console.log('reached here',author,user)
     const addedProblem = await Problem.create({
         title,
         description,
         author:user._id,
         topic,
         difficulty,
+        inputTestCases,
+        outputTestCases,
+        inputFormat,
+        expectedOutput,
+        constraints
     })
-    console.log(addedProblem);
+    // console.log(addedProblem);
     if(!addedProblem){
         throw new ApiError(500,"error while adding problem")
     }
@@ -87,7 +93,7 @@ const deleteProblem = asyncHandler(async(req,res)=>{
 })
 
 const runProblem  = asyncHandler(async (req,res)=>{
-    const {language='cpp',code } = req.body
+    const {language='cpp',code,input} = req.body
     let  filePath;
     if(!code){
         throw new ApiError(400,"Code is required")
@@ -95,19 +101,19 @@ const runProblem  = asyncHandler(async (req,res)=>{
     let output;
     try {
         filePath  = generateFile(language,code);
-        
+        const inputPath = await generateInputFile(input)
         if(language=='cpp'){
-            output  = await executeCpp(filePath)
+            output  = await executeCpp(filePath,inputPath)
         }
         else if(language=='python'){
-            output = await executePython(filePath)
+            output = await executePython(filePath,inputPath)
         }
         else{
             output = await  executeJava(filePath)
         }
         res.status(200).json(new ApiResponse(200,{filePath,output}))
     } catch (error) {
-        
+        res.status(422).json(new ApiResponse(422,error))
     }
    
 })

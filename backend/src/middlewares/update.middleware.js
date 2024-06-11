@@ -18,7 +18,7 @@ export const createUpdateDetails = asyncHandler(async (req,_,next)=>{
 
 
 export const problemUpdateDetails =asyncHandler(async (req,res,next)=>{
-    let {title,description,author,topic,difficulty} =req.body;
+    let {title,description,author,topic,difficulty,inputTestCases,outputTestCases,inputFormat,expectedOutput,constraints} =req.body;
     req.updateProblemDetails  = {}
     if(!title){
         throw new ApiError(400,"Title is required")
@@ -28,5 +28,10 @@ export const problemUpdateDetails =asyncHandler(async (req,res,next)=>{
     if(author) req.updateProblemDetails.username = author
     if(topic) req.updateProblemDetails.topic = topic
     if(difficulty) req.updateProblemDetails.difficulty = difficulty
+    if(inputTestCases) req.updateProblemDetails.inputTestCases = inputTestCases
+    if(outputTestCases) req.updateProblemDetails.outputTestCases = outputTestCases
+    if(inputFormat) req.updateProblemDetails.inputFormat = inputFormat
+    if(expectedOutput) req.updateProblemDetails.expectedOutput = expectedOutput
+    if(constraints) req.updateProblemDetails.constraints = constraints
     next()
 })

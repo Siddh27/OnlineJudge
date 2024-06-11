@@ -24,9 +24,20 @@ const problemSchema = new mongoose.Schema({
         enum:['Easy','Medium','Hard'],
         required:true,
     },
-    testcase:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"TestCase"
+    inputTestCases:{
+        type:String,
+    },
+    outputTestCases:{
+        type:String
+    },
+    inputFormat:{
+        type:String
+    },
+    expectedOutput:{
+        type:String
+    },
+    constraints:{
+        type:String
     }
     // submissions , acceptance rate needs to be calculated,submissions
 

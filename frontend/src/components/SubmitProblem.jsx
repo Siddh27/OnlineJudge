@@ -10,6 +10,19 @@ import {java} from '@codemirror/lang-java'
 
 function SubmitProblem() {
 
+    const [outputWindow,setOutputWindow] = useState(true)
+    const [inputWindow,setInputWindow] = useState(!outputWindow)
+    const [input,setInput] = useState('')
+    const [showVerdict,setShowVerdict] = useState(false)
+
+    const [inputTestCases,setInputTestCases] = useState('')
+    const [outputTestCases,setOutputTestCases]= useState('')
+
+
+    const [verdict,setVerdict] = useState('')
+
+    const [testCaseDisplay,setTestCaseDisplay]  = useState([{}])
+
     const  [boilerplate,setBoilerPlate] = useState(`
     #include <iostream>
         int main() {
@@ -25,14 +38,40 @@ function SubmitProblem() {
 
     const [output,setOutput] = useState('')
 
+    const handleOutput = ()=>{
+        setOutputWindow(true)
+        setInputWindow(false)
+        setShowVerdict(false)
+    }
+
+    const handleInput = ()=>{
+        setInputWindow(true)
+        setOutputWindow(false)
+        setShowVerdict(false)
+    }
+
+    const handleVerdict = ()=>{
+        setOutputWindow(false)
+        setInputWindow(false)
+        setShowVerdict(true)
+    }
+
+    const changeInputHandler = (e)=>{
+        setInput(e.target.value)
+    }
+
     const [data,setData] = useState({
         title:'',
         description:'',
         author:'',
         topic:'',
         difficulty:'',
-        createdAt : ''
+        createdAt : '',
+        inputFormat:'',
+        expectedOutput:'',
+        constraints:''
     })
+
 
 
 
@@ -48,6 +87,8 @@ function SubmitProblem() {
                  })
                 const problem = response.data.data
                 setData({...problem,author:getUser.data.data.username})
+                setInputTestCases(problem.inputTestCases)
+                setOutputTestCases(problem.outputTestCases)
             }
         }
         fetchData()
@@ -59,22 +100,65 @@ function SubmitProblem() {
     }
 
     const handleRun =  async()=>{
+        setOutput('')
+        handleOutput()
         let url = `http://localhost:8000/api/v1/users/runProblem`
-        const response = await axios.post(url,{code,language},{
+        const response = await axios.post(url,{code,language,input},{
             withCredentials: true // Important: Include credentials
           });
-        if(response && response.status==200 ){
-            setOutput(response.data.data.output)
+        if(response){
+            if(response.status==200){
+                setOutput(response.data.data.output)
+            }
+            else{
+                setOutput(response.data.message)
+            }
         }
-        else{
-            alert()
+    }
+
+    const handleSubmit = async()=>{
+        setTestCaseDisplay([{}])
+        setOutput('')
+        handleVerdict()
+        setVerdict(false)
+        let url = `http://localhost:8000/api/v1/users/runProblem`
+        let inputArr =  inputTestCases.split('\n')
+        let outputArr = outputTestCases.split('\n')
+        for(let i=0;i<inputArr.length;i++){
+            let inputTestCase = inputArr[i].trim();
+            let outputTestCase =outputArr[i].trim();
+            const response = await axios.post(url,{code,language,input:inputTestCase},{
+                withCredentials: true // Important: Include credentials
+              });
+            if(response.data.data.output.trim()==outputTestCase){
+                setTestCaseDisplay(prevTestCaseDisplay =>[
+                    ...prevTestCaseDisplay,
+                    {
+                        title:`test case ${i+1}`,
+                        color:'bg-green-400',
+                        id:i+1
+                    }
+                ])
+            }
+            else{
+                setTestCaseDisplay(prevTestCaseDisplay =>[
+                    ...prevTestCaseDisplay,
+                    {
+                        title:`test case ${i+1}`,
+                        color:'bg-red-400',
+                        id:i+1
+                    }
+                ])
+                return;
+            }
         }
+        setVerdict(true)
     }
     
     return (
         <>
            <div className='flex h-screen bg-gray-500'>
-                <div className='w-1/2 bg-slate-500  overflow-scroll'>
+                <div className='w-1/2 bg-slate-500  overflow-auto'>
                     <div className='font-bold text-white text-2xl text-center italic p-3 border-black border-4 bg-slate-800'>
                         {data.title}
                     </div>
@@ -112,19 +196,19 @@ function SubmitProblem() {
                         Input Format
                     </div>
                     <div className='text-white ml-3 '>
-                         {/* {input} */}
+                         {data.inputFormat}
                     </div>
                     <div className='m-3 text-lg text-slate-1000 underline'>
                         Expected Output
                     </div>
                     <div className='text-white ml-3 '>
-                         {/* {output} */}
+                         {data.expectedOutput}
                     </div>
                     <div className='m-3 text-lg text-slate-1000 underline'>
                         Constraints
                     </div>
                     <div className='text-white ml-3 '>
-                         {/* {constraints} */}
+                         {data.constraints}
                     </div>
                 </div>
 
@@ -147,41 +231,56 @@ function SubmitProblem() {
                                     <option value="java">Java</option>
                                 </select>
                         </div>
-                        {/* className='h-2/5 w-full bg-gray-100 border border-gray-300 rounded-lg shadow-lg p-3 mt-2' onChange={codeHandler} */}
                         {language=='python'?<CodeMirror 
                         theme={vscodeDark}
                         extensions={[python(),autocompletion()]}
-                        height='200px'
+                        height='500px'
                         onChange={(value,ViewUpdate)=>{
                             setCode(value)
                         }}
+                        className='my-2'
                         
                          />:''}
                          {language=='cpp'?<CodeMirror 
                         theme={vscodeDark}
                         extensions={[cpp(),autocompletion()]}
-                        height='200px'
+                         height='500px'
                         onChange={(value,ViewUpdate)=>{
                             setCode(value)
                         }}
+                        className='my-2'
                          />:''}
 
                         {language=='java'?<CodeMirror 
                         theme={vscodeDark}
                         extensions={[java(),autocompletion()]}
-                        height='200px'
+                          height='500px'
                         onChange={(value,ViewUpdate)=>{
                             setCode(value)
                         }}
+                        className='my-2'
                         />:''}
                         
-                        <div className='text-center font-bold italic mt-8 text-white text-2xl'>Output</div>
-                        <div className='bg-gray-500 h-1/5 mt-3 rounded-lg shadow-large text-white'>
+                        <div className={`border-t border-x w-fit font-bold italic mt-8 text-white text-2xl inline  ${outputWindow?'bg-customDark':''} rounded-t`} onClick={handleOutput}>Output</div>
+                        <div className={`border-t border-x w-fit font-bold italic mt-8 text-white text-2xl inline ${inputWindow?'bg-customDark':''} ml-1 `} onClick={handleInput} value={input}>Input</div>
+                        <div className={`border-t border-x w-fit font-bold italic mt-8 text-white text-2xl inline ${showVerdict?'bg-customDark':''} ml-1 `} onClick={handleVerdict} value={input}>Verdict</div>
+                        {showVerdict?<div className={`w-fit font-bold italic mt-8 ${verdict?'text-green-400':'text-red-400'} text-2xl inline ${verdict==='passed'} ml-1 `}>{verdict?'Passed':'Failed'}</div>:''}
+                        {outputWindow?<div className='bg-gray-500 h-1/5 mt-3 rounded-lg shadow-large text-white'>
                             {output}
-                        </div>
+                        </div>:''}
+                        {inputWindow?<textarea onChange={changeInputHandler} className='bg-gray-500 h-1/5 mt-3 flex  rounded-lg shadow-large w-full p-3'></textarea>:''}
+                        {showVerdict?<div className='bg-gray-500 h-1/5 mt-3 rounded-lg shadow-large  text-white'>
+                            {
+                                testCaseDisplay.map((testcase)=>(
+                                        <div key={testcase.id} className={`${testcase.color} text-black text-sm w-fit rounded-md inline-block mx-1 p-1 shadow-md`}>
+                                            {testcase.title} 
+                                        </div>
+                                ))
+                            }
+                        </div>:''}
                         <div className='flex justify-around mt-1'>
                         <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={handleRun}>Run</button>
-                            <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
+                            <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={handleSubmit}>Submit</button>
                         </div>
                 </div>
            </div>

@@ -3,7 +3,7 @@ import {v4 as uuid} from 'uuid'
 import path from 'path'
 import  url  from 'url'
 import { exec } from 'child_process'
-import { stderr, stdout } from 'process'
+
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,24 +14,29 @@ if(!fs.existsSync(dirCodes)){
     fs.mkdirSync(dirCodes,{recursive:true})
 }
 
-const executeCpp = (filePath)=>{
+const executeCpp = (filePath,inputPath)=>{
     const jobId = path.basename(filePath).split('.')[0];
     const outputFileName = `${jobId}.exe`
     const outputPath = path.join(dirCodes,outputFileName)
-    
-    return new Promise((res,rej)=>{
+    // console.log(inputPath);
+    return new Promise((res,reject)=>{
         exec(
-        `g++ ${filePath} -o ${outputPath} && cd ${dirCodes} && .\\${outputFileName}`,
+        `g++ ${filePath} -o ${outputPath} && cd ${dirCodes} && .\\${outputFileName} < ${inputPath}`,
         (error,stdout,stderr)=>{
-            fs.unlinkSync(filePath)
-            if(outputPath){
+            if(fs.existsSync(filePath)){
+                fs.unlinkSync(filePath)
+            }
+            if(fs.existsSync(outputPath)){
                 fs.unlinkSync(outputPath)
             }
+            if(fs.existsSync(inputPath)){
+                fs.unlinkSync(inputPath)
+            }
            if(error){
-             rej(error)
+             reject(error)
            } 
            if(stderr){
-            rej(stderr)
+            reject(stderr)
            }
            res(stdout)
         }
@@ -39,12 +44,15 @@ const executeCpp = (filePath)=>{
     })
 }
 
-const executePython = (filePath)=>{
+const executePython = (filePath,inputPath)=>{
     return new Promise((res,rej)=>{
         exec(
-        `python ${filePath}`,
+        `python ${filePath} < ${inputPath}`,
         (error,stdout,stderr)=>{
-            fs.unlinkSync(filePath)
+            // fs.unlinkSync(filePath)
+            // if(fs.existsSync(inputPath)){
+            //     fs.unlinkSync(inputPath)
+            // }
            if(error){
              rej(error)
            } 

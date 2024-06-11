@@ -1,22 +1,21 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-function AddProblem() {
 
+
+function UpdateProfile() {
     const navigate  = useNavigate()
 
     const [data,setData] = useState({
-        title:'',
-        description:'',
-        author:'',
-        topic:'',
-        difficulty:'Easy',
-        inputTestCases:'',
-        outputTestCases:'',
-        inputFormat:'',
-        expectedOutput:'',
-        constraints:'',
+        username:'',
+        email:'',
+        fullName:'',
+        age:'',
+        github:'',
+        linkedIn : '',
+        coverImage:'',
+        organization:''
     })
 
     const handleSumbit = async()=>{
@@ -39,7 +38,6 @@ function AddProblem() {
             window.alert('Some error occured while addding the problem');
         }
     }
-
     const handleChange = async({currentTarget:input})=>{
         setData(prevData=>(
             {
@@ -48,7 +46,6 @@ function AddProblem() {
             }
         ))
     }
-
     return (
         <>
          <div className='bg-slate-500 h-screen '>
@@ -69,19 +66,10 @@ function AddProblem() {
                 <input name='topic' value={data.topic} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Topic' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <textarea name='inputTestCases' value={data.inputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2  rounded-lg overflow-auto w-full shadow-lg' placeholder='inputTestCases' />
+                <textarea name='inputTestCases' value={data.inputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='inputTestCases' />
               </div>
               <div className=' text-white  w-1/2 mb-5 text-lg'>
                 <textarea name='outputTestCases' value={data.outputTestCases} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='outputTestCases' />
-              </div>
-              <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <textarea name='inputFormat' value={data.inputFormat} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Input Format' />
-              </div>
-              <div className=' text-white  w-1/2 mb-5 text-lg'>
-                <textarea name='expectedOutput' value={data.expectedOutput} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='ExpectedOutput' />
-              </div>
-              <div className=' text-white  w-full mb-5 text-lg'>
-                <textarea name='constraints' value={data.constraints} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Constraints' />
               </div>
               <div className=' text-white ml-2 w-1/2 mb-5 text-lg'>
               <label htmlFor="countries" className="block mb-2 text-lg font-medium text-customDark ">Difficulty</label>
@@ -104,4 +92,4 @@ function AddProblem() {
     )
 }
 
-export default AddProblem
+export default UpdateProfile
