@@ -25,7 +25,7 @@ const executeCpp = (filePath,inputPath)=>{
         (error,stdout,stderr)=>{
             if(fs.existsSync(filePath)){
                 fs.unlinkSync(filePath)
-                console.log('reached')
+                // console.log('reached')
             }
             if(fs.existsSync(outputPath)){
                 fs.unlinkSync(outputPath)
@@ -68,15 +68,17 @@ const executePython = (filePath,inputPath)=>{
     })
 }
 
-const executeJava = (filePath)=>{
+const executeJava = (filePath,inputPath)=>{
     return new Promise((res,rej)=>{
-        fs.unlinkSync(filePath)
-        if(outputPath){
-            fs.unlinkSync(outputPath)
-        }
         exec(
-        `java ${filePath}`,
+        `java ${filePath} < ${inputPath}`,
         (error,stdout,stderr)=>{
+            if(fs.existsSync(filePath)){
+                fs.unlinkSync(filePath)
+            }
+            if(fs.existsSync(inputPath)){
+                fs.unlinkSync(inputPath)
+            }
            if(error){
              rej(error)
            } 

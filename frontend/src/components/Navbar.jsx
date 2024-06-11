@@ -35,7 +35,7 @@ function Navbar() {
         <nav className='bg-customBlue p-4'>
         <div className="flex items-center justify-between">
             {/* Logo */}
-           <Link to='../user/home'> <div className="text-white text-2xl font-bold">Online Judge</div></Link>
+           <Link to='../user/home'> <div className="text-white text-2xl font-bold">CodeEffort</div></Link>
 
             <div className="md:hidden">
                 <button onClick={toggleMenu} className='text-white'>

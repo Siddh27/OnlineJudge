@@ -100,16 +100,18 @@ const runProblem  = asyncHandler(async (req,res)=>{
     }
     let output;
     try {
-        filePath  = generateFile(language,code);
+        filePath  = await generateFile(language,code);
         const inputPath = await generateInputFile(input)
         if(language=='cpp'){
             output  = await executeCpp(filePath,inputPath)
         }
-        else if(language=='python'){
+        if(language=='python'){
             output = await executePython(filePath,inputPath)
         }
-        else{
-            output = await  executeJava(filePath)
+        if(language=='java'){
+            // console.log(language);
+            output = await  executeJava(filePath,inputPath)
+            console.log(output);
         }
         res.status(200).json(new ApiResponse(200,{filePath,output}))
     } catch (error) {
