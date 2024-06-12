@@ -51,7 +51,8 @@ const registerUser = asyncHandler( async (req,res)=>{
         $or:[ {username} , {email} ]
     })
     if(userExists){
-        throw new ApiError(409,"User with email or username exists")
+        res.status(400).json( new ApiResponse(400,{},'User with email or username exists'))
+        return
     }
     
     let coverImageLocalPath;
@@ -111,7 +112,7 @@ const loginUser =  asyncHandler(async (req,res)=>{
 
     const {username,password} = req.body;
     if(!(username)){
-        throw new ApiError(400,"username or email is required")
+        res.status(400).json( new ApiResponse(400,{},'username/email us required'))
     }
 
     const user = await User.findOne({
@@ -119,12 +120,12 @@ const loginUser =  asyncHandler(async (req,res)=>{
     })
 
     if(!user){
-        throw new ApiError(404,"user does not exist");
+        res.status(400).json( new ApiResponse(404,{},'user does not exist!'))
     }
 
     const isPasswordValid = await user.isPasswordCorrect(password)
     if(!isPasswordValid){
-        throw new ApiError(401,"Invalid user Credentials");
+       res.status(400).json( new ApiResponse(400,{},'Invalid User Credentials'))
     }
 
     const {accessToken,refreshToken} = await generateAcessAndRefreshToken(user._id)

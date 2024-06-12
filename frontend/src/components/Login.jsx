@@ -16,6 +16,12 @@ function Login() {
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
+        for(let d in data){
+            if(data[d]==''){
+                window.alert('Both fields are required!')
+                return
+            }
+        }
         try {
             const response = await axios.post(loginURL,{...data},{
                 withCredentials: true // Important: Include credentials
@@ -34,7 +40,7 @@ function Login() {
             })
             navigate('/user/home')
         } catch (error) {
-            console.log(error)
+            window.alert(error.response.data.message)
         }
     }
 

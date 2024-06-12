@@ -14,6 +14,8 @@ function SignUp() {
         password:""
     })
 
+    const requiredTofill = ['fullName','email','username','password']
+
     const [coverImage,setCoverImage] = useState(null)
     const navigate = useNavigate()
 
@@ -23,10 +25,16 @@ function SignUp() {
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
+        for(const field of requiredTofill){
+           if(data[field]==''){
+             window.alert(`${field} is required`)
+             break;
+           }
+        }
         try {
             const  response= await axios.post(registerURL,{...data});
             if(response){
-                console.log(response.data.message)
+                window.alert(response.data.message)
             }
             if(registerButtonRef.current){
                 registerButtonRef.current.textContent = 'Registered!'
@@ -43,8 +51,7 @@ function SignUp() {
             })
             navigate('/login')
         } catch (error) {
-            console.log(error.message)
-           
+            window.alert(error.response.data.message)
         }
     }
 
@@ -164,6 +171,7 @@ function SignUp() {
                             <button ref={registerButtonRef} onClick={handleSubmit} className='w-full bg-yellow-300 py-3 text-center text-white'>Register</button>
                         </div>
                     </form>
+                   <span className='text-red-600 text-lg'> Already a user? Click <Link to='../login' className='underline text-blue-400'>here</Link> to Login</span>
                 </div>
             </div>
           </div>

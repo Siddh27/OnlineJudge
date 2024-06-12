@@ -82,6 +82,9 @@ function Navbar() {
              <li className='py-2 hover:shadow-lg hover:bg-customDark'>
                 <NavLink to={'/user/home'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Home</NavLink>
             </li>
+            {isAdmin?<li>
+                    <NavLink to={'/user/adminDashboard'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Admin-Dashboard</NavLink>
+                </li>:''}
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
                 <NavLink to={'/user/problemList'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Problems</NavLink>
             </li>
