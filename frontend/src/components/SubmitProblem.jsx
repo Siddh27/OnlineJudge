@@ -66,22 +66,23 @@ function SubmitProblem() {
     })
 
 
-
-
+    const [problem,setProblem] = useState({})
+    const [user,setUser] = useState({})
     useEffect(()=>{
         const fetchData = async()=>{
             let url  = `http://localhost:8000/api/v1/users/getProblem?title=${title}`
             const response = await axios.get(url,{
                 withCredentials:true
             })
+            setProblem(response.data.data)
             if(response && response.status==200){
                 const getUser = await axios.get(`http://localhost:8000/api/v1/users/getUser`,{
                 withCredentials:true
                  })
-                const problem = response.data.data
                 setData({...problem,author:getUser.data.data.username})
                 setInputTestCases(problem.inputTestCases)
                 setOutputTestCases(problem.outputTestCases)
+                setUser(getUser.data.data)
             }
         }
         fetchData()
@@ -181,6 +182,7 @@ function SubmitProblem() {
                 }
             }
             setVerdict(true)
+            const submission = await axios.post(`http://localhost:8000/api/v1/users/addSubmission`,{user:user._id,verdict:true,problem:problem._id},{withCredentials:true})
         } catch (error) {
             handleOutput()
             if(language=='cpp'){

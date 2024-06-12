@@ -13,7 +13,7 @@ function HomePage() {
     })
     return (
         <>
-        <div className='flex justify-between items-center bg-slate-500'>
+        <div className='flex h-screen justify-between items-center bg-slate-500'>
             <div className='text-7xl text-white mx-auto '>
                 <Typewriter words={['CodeEffort']} loop={false} cursor={true} typeSpeed={120} deleteSpeed={80} />
                 <div className='text-xl text-white'>

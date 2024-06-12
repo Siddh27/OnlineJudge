@@ -6,7 +6,7 @@ import { User } from "../models/user.models.js";
 import generateFile from "../utils/generateFile.js";
 import {executeCpp,executePython,executeJava} from '../utils/executeFile.js'
 import generateInputFile from "../utils/generateInputFile.js";
-
+import { Submission } from "../models/submissions.model.js";
 
 const addProblem = asyncHandler(async (req,res)=>{
     const {title,description,author,topic,difficulty,inputTestCases,outputTestCases,inputFormat,expectedOutput,constraints} =req.body;
@@ -125,4 +125,42 @@ const getAllProblems  = asyncHandler(async (req,res)=>{
     res.status(200).json(new ApiResponse(200,problems,'fetched all problems'))
 })
 
-export {addProblem,updateProblem,getProblem,deleteProblem,runProblem,getAllProblems}
+
+const addSubmission = asyncHandler(async(req,res)=>{
+    const {problem,verdict,user}  = req.body
+    if(verdict==false){
+        res.status(200).json(
+            new ApiResponse(200,{},"Failed Submission")
+        )
+        return
+    }
+    const successfulSubmission = await Submission.findOne({
+        user,
+        problem,
+        verdict
+    })
+    if(successfulSubmission){
+        res.status(200).json(
+            new ApiResponse(200,{},"Already Submitted")
+        )
+        return
+    }
+    else{
+        const submission = await Submission.create({
+            problem,
+            verdict,
+            user
+        })
+        await User.findByIdAndUpdate(user,{
+            numberOfproblemsSolved:req.user.numberOfproblemsSolved+1
+        })
+        res.status(200).json(
+            new ApiResponse(200,{submission},"New Successful Submission")
+        )
+    }
+    
+   
+})
+
+
+export {addProblem,updateProblem,getProblem,deleteProblem,runProblem,getAllProblems,addSubmission}

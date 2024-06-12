@@ -7,17 +7,13 @@ const submissionSchema = new mongoose.Schema({
         required:true
     },
     verdict:{
-        type:String,
+        type:Boolean,
         required:true
     },
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
     },
-    testcaseFailed:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Testcase"
-    }
 },{timestamps:true})
 
 
