@@ -14,6 +14,7 @@ import UpdateProblem from './components/UpdateProblem.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
 import UpdateProfile from './components/UpdateProfile.jsx'
 import AdminDashBoard from './components/AdminDashBoard.jsx'
+import ChangePassword from './components/ChangePassword.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
           <Route path='profile' element={<ProfilePage/>}></Route>
           <Route path='updateProfile' element={<UpdateProfile/>}></Route>
           <Route path='adminDashboard' element={<AdminDashBoard/>}></Route>
+          <Route path='changePassword' element={<ChangePassword/>}></Route>
       </Route>
     </Route>
 
