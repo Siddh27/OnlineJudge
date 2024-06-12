@@ -34,7 +34,7 @@ const executeCpp = (filePath,inputPath)=>{
                 fs.unlinkSync(inputPath)
             }
            if(error){
-             reject(error)
+             reject({error,stderr})
            } 
            if(stderr){
             reject(stderr)
@@ -46,9 +46,13 @@ const executeCpp = (filePath,inputPath)=>{
 }
 
 const executePython = (filePath,inputPath)=>{
-    return new Promise((res,rej)=>{
+    const options = {
+        timeout: 5000, // Timeout in milliseconds (e.g., 5000ms = 5s)
+        // maxBuffer: 1024 * 1024 // Maximum buffer size in bytes (e.g., 1MB)
+    };
+    return new Promise((res,reject)=>{
         exec(
-        `python ${filePath} < ${inputPath}`,
+        `python ${filePath} < ${inputPath}`,options,
         (error,stdout,stderr)=>{
             if(fs.existsSync(filePath)){
                 fs.unlinkSync(filePath)
@@ -56,20 +60,23 @@ const executePython = (filePath,inputPath)=>{
             if(fs.existsSync(inputPath)){
                 fs.unlinkSync(inputPath)
             }
-           if(error){
-             rej(error)
-           } 
-           if(stderr){
-            rej(stderr)
-           }
-           res(stdout)
+            if(error){
+                if(error.killed){
+                    reject('Took too long time to run...')
+                }
+                reject({error,stderr})
+            } 
+            if(stderr){
+            reject(stderr)
+            }
+            res(stdout)
         }
         )
     })
 }
 
 const executeJava = (filePath,inputPath)=>{
-    return new Promise((res,rej)=>{
+    return new Promise((res,reject)=>{
         exec(
         `java ${filePath} < ${inputPath}`,
         (error,stdout,stderr)=>{
@@ -79,13 +86,13 @@ const executeJava = (filePath,inputPath)=>{
             if(fs.existsSync(inputPath)){
                 fs.unlinkSync(inputPath)
             }
-           if(error){
-             rej(error)
-           } 
-           if(stderr){
-            rej(stderr)
-           }
-           res(stdout)
+            if(error){
+                reject({error,stderr})
+            } 
+            if(stderr){
+            reject(stderr)
+            }
+            res(stdout)
         }
         )
     })

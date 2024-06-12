@@ -23,16 +23,9 @@ function SubmitProblem() {
 
     const [testCaseDisplay,setTestCaseDisplay]  = useState([{}])
 
-    const  [boilerplate,setBoilerPlate] = useState(`
-    #include <iostream>
-        int main() {
-            std::cout << "Hello, World!" << std::endl;
-            return 0;
-        }
-    `)
     const {title} = useParams() 
 
-    const [code,setCode] = useState('Hello World!')
+    const [code,setCode] = useState('')
 
     const [language,setLanguage] = useState('cpp')
 
@@ -95,64 +88,124 @@ function SubmitProblem() {
     },[])
 
     const languageHandler = (event)=>{
+        // window.location.reload()
+        setOutput('')
+        setCode('')
         let lang = event.target.value
         setLanguage(lang)
     }
 
     const handleRun =  async()=>{
+        if(code==''){
+            setOutput('No Code!');
+            return;
+        }
         setOutput('')
         handleOutput()
-        let url = `http://localhost:8000/api/v1/users/runProblem`
-        const response = await axios.post(url,{code,language,input},{
-            withCredentials: true // Important: Include credentials
-          });
-        if(response){
-            if(response.status==200){
-                setOutput(response.data.data.output)
+        try {
+            let url = `http://localhost:8000/api/v1/users/runProblem`
+            const response = await axios.post(url,{code,language,input},{
+                withCredentials: true // Important: Include credentials
+              });
+            if(response){
+                if(response.status==200){
+                    setOutput(response.data.data.output)
+                }
             }
-            else{
-                setOutput(response.data.message)
+        } catch (error) {
+            if(language=='cpp'){
+                let word = "error:"
+                const compileMessage = error.response.data.data
+                let index = compileMessage.indexOf(word);
+                let result = compileMessage.slice(index + word.length);
+                setOutput(result.trim())
+            }
+            if(language=='java')
+            {
+                let word = 'java'
+                const compileMessage  =error.response.data.data
+                let index = compileMessage.indexOf(word);
+                let result = compileMessage.slice(index + word.length);
+                setOutput(result.trim())
+            }
+            if(language=='python'){
+                let word = ','
+                const compileMessage  =error.response.data.data
+                let index = compileMessage.indexOf(word);
+                let result = compileMessage.slice(index + word.length);
+                setOutput(result.trim())
             }
         }
     }
 
     const handleSubmit = async()=>{
+        if(code==''){
+            handleOutput()
+            setOutput('No Code!')
+            return;
+        }
         setTestCaseDisplay([{}])
         setOutput('')
         handleVerdict()
         setVerdict(false)
-        let url = `http://localhost:8000/api/v1/users/runProblem`
-        let inputArr =  inputTestCases.split('\n')
-        let outputArr = outputTestCases.split('\n')
-        for(let i=0;i<inputArr.length;i++){
-            let inputTestCase = inputArr[i].trim();
-            let outputTestCase =outputArr[i].trim();
-            const response = await axios.post(url,{code,language,input:inputTestCase},{
-                withCredentials: true // Important: Include credentials
-              });
-            if(response.data.data.output.trim()==outputTestCase){
-                setTestCaseDisplay(prevTestCaseDisplay =>[
-                    ...prevTestCaseDisplay,
-                    {
-                        title:`test case ${i+1}`,
-                        color:'bg-green-400',
-                        id:i+1
-                    }
-                ])
+        try {
+            let url = `http://localhost:8000/api/v1/users/runProblem`
+            let inputArr =  inputTestCases.split('\n')
+            let outputArr = outputTestCases.split('\n')
+            for(let i=0;i<inputArr.length;i++){
+                let inputTestCase = inputArr[i].trim();
+                let outputTestCase =outputArr[i].trim();
+                const response = await axios.post(url,{code,language,input:inputTestCase},{
+                    withCredentials: true // Important: Include credentials
+                  });
+                if(response.data.data.output.trim()==outputTestCase){
+                    setTestCaseDisplay(prevTestCaseDisplay =>[
+                        ...prevTestCaseDisplay,
+                        {
+                            title:`test case ${i+1}`,
+                            color:'bg-green-400',
+                            id:i+1
+                        }
+                    ])
+                }
+                else{
+                    setTestCaseDisplay(prevTestCaseDisplay =>[
+                        ...prevTestCaseDisplay,
+                        {
+                            title:`test case ${i+1}`,
+                            color:'bg-red-400',
+                            id:i+1
+                        }
+                    ])
+                    return;
+                }
             }
-            else{
-                setTestCaseDisplay(prevTestCaseDisplay =>[
-                    ...prevTestCaseDisplay,
-                    {
-                        title:`test case ${i+1}`,
-                        color:'bg-red-400',
-                        id:i+1
-                    }
-                ])
-                return;
+            setVerdict(true)
+        } catch (error) {
+            handleOutput()
+            if(language=='cpp'){
+                let word = "error:"
+                const compileMessage = error.response.data.data
+                let index = compileMessage.indexOf(word);
+                let result = compileMessage.slice(index + word.length);
+                setOutput(result.trim())
             }
+            if(language=='java')
+            {
+                let word = 'java'
+                const compileMessage  =error.response.data.data
+                let index = compileMessage.indexOf(word);
+                let result = compileMessage.slice(index + word.length);
+                setOutput(result.trim())
+            }
+            if(language=='python'){
+                let word = ','
+                const compileMessage  =error.response.data.data
+                let index = compileMessage.indexOf(word);
+                let result = compileMessage.slice(index + word.length);
+                setOutput(result.trim())
+            } 
         }
-        setVerdict(true)
     }
     
     return (
@@ -265,7 +318,7 @@ function SubmitProblem() {
                         <div className={`border-t border-x w-fit font-bold italic mt-8 text-white text-2xl inline ${inputWindow?'bg-customDark':''} ml-1 `} onClick={handleInput} value={input}>Input</div>
                         <div className={`border-t border-x w-fit font-bold italic mt-8 text-white text-2xl inline ${showVerdict?'bg-customDark':''} ml-1 `} onClick={handleVerdict} value={input}>Verdict</div>
                         {showVerdict?<div className={`w-fit font-bold italic mt-8 ${verdict?'text-green-400':'text-red-400'} text-2xl inline ${verdict==='passed'} ml-1 `}>{verdict?'Passed':'Failed'}</div>:''}
-                        {outputWindow?<div className='bg-gray-500 h-1/5 mt-3 rounded-lg shadow-large text-white'>
+                        {outputWindow?<div className='bg-gray-500 h-1/5 mt-3 rounded-lg shadow-large text-white overflow-auto'>
                             {output}
                         </div>:''}
                         {inputWindow?<textarea onChange={changeInputHandler} className='bg-gray-500 h-1/5 mt-3 flex  rounded-lg shadow-large w-full p-3'></textarea>:''}

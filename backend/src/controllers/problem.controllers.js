@@ -115,7 +115,7 @@ const runProblem  = asyncHandler(async (req,res)=>{
         }
         res.status(200).json(new ApiResponse(200,{filePath,output}))
     } catch (error) {
-        res.status(422).json(new ApiResponse(422,error))
+        res.status(400).json(new ApiResponse(200,error.stderr))
     }
    
 })
