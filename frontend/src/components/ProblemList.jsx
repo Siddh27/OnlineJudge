@@ -69,7 +69,7 @@ function ProblemList() {
                     <div  key={problem.title} className='bg-customDark container mx-auto mt-9 w-2/3 text-white rounded-lg flex justify-between p-3 items-center'>
                         {problem.title}
                     <div className='flex justify-around  w-1/5'>
-                    <Link to={`../submit/${problem.title}`}> <FaPlay onClick={()=>handleSubmit(problem.title)}/></Link>
+                    <Link to={`../submit/${problem.title}`}> <FaPlay /></Link>
                     {isAdmin?<Link to={`../updateProblem/${problem.title}`}><MdEdit /></Link>:''}
                     {isAdmin?<button onClick={()=>handleDelete(problem.title)}><MdDelete /></button>:''}
                     </div>

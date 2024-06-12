@@ -68,6 +68,9 @@ function Navbar() {
                     <NavLink to={'/user/problemList'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Problems</NavLink>
                 </li>
                 <li>
+                    <NavLink to={'/user/leaderboard'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>LeaderBoard</NavLink>
+                </li>
+                <li>
                 <NavLink to={'../user/profile'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>MyProfile</NavLink>
                 </li>
                 <li onClick={handleLogout} className=' hover:shadow-lg hover:cursor-pointer text-white  hover:bg-customDark'>
@@ -87,6 +90,9 @@ function Navbar() {
                 </li>:''}
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
                 <NavLink to={'/user/problemList'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Problems</NavLink>
+            </li>
+            <li>
+                    <NavLink to={'/user/leaderboard'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>LeaderBoard</NavLink>
             </li>
             <li className='py-2 hover:shadow-lg hover:bg-customDark'>
             <NavLink to={'../user/profile'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>MyProfile</NavLink>
