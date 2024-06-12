@@ -273,4 +273,26 @@ const updateAccountDetails = asyncHandler(async (req,res)=>{
     .json(200, new ApiResponse(200,user,"Account Details updated successfully"))
 })
 
-export { registerUser ,loginUser ,logoutUser,changeCurrentPassword,refreshAcessToken,getCurrentUser,updateAccountDetails}
+
+const toggleAdmin = asyncHandler(async(req,res)=>{
+    const id = req.body.id
+    const currentAdminState = req.body.isAdmin
+    const user = await User.findByIdAndUpdate({
+        _id:id
+    },{
+        $set:{isAdmin:!currentAdminState}
+    }, {new:true})
+    .select("-password")
+
+    return res
+    .status(200)
+    .json(200, new ApiResponse(200,user,"Admin toggled"))
+
+})
+
+const getAllUsers = asyncHandler(async(req,res)=>{
+    const users = await User.find().select("-password")
+    res.status(200).json(new ApiResponse(200,users,"fetched all users successfully!"))
+})
+
+export { registerUser ,loginUser ,logoutUser,changeCurrentPassword,refreshAcessToken,getCurrentUser,updateAccountDetails,getAllUsers,toggleAdmin}

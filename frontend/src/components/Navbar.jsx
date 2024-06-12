@@ -1,12 +1,26 @@
 import React from 'react'
 import { NavLink,Link } from 'react-router-dom'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
+
 function Navbar() {
+
+    const [isAdmin,setIsAdmin] = useState(false)
+    useEffect(()=>{
+        const fetchUserData = async(req,res)=>{
+            let url  = `http://localhost:8000/api/v1/users/getUser`
+            const response = await axios.get(url,{
+                withCredentials:true
+            })
+            setIsAdmin(response.data.data.isAdmin)
+        }
+        fetchUserData()
+    },[])
+
     const [isMenuOpen,setIsMenuOpen]  = useState(false)
 
     const navigate = useNavigate()
@@ -47,6 +61,9 @@ function Navbar() {
                 <li>
                     <NavLink to={'/user/home'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Home</NavLink>
                 </li>
+                {isAdmin?<li>
+                    <NavLink to={'/user/adminDashboard'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Admin-Dashboard</NavLink>
+                </li>:''}
                 <li>
                     <NavLink to={'/user/problemList'} className={({ isActive }) =>isActive ? 'text-yellow-300' : 'text-white'}>Problems</NavLink>
                 </li>

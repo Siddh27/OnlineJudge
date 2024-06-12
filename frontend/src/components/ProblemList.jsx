@@ -9,7 +9,20 @@ function ProblemList() {
 
         const [problems,setProblems] = useState([])
 
+        const [isAdmin,setIsAdmin] = useState(false)
+
         const navigate = useNavigate()
+
+        useEffect(()=>{
+            const fetchUserData = async(req,res)=>{
+                let url  = `http://localhost:8000/api/v1/users/getUser`
+                const response = await axios.get(url,{
+                    withCredentials:true
+                })
+                setIsAdmin(response.data.data.isAdmin)
+            }
+            fetchUserData()
+        },[])
 
         useEffect(()=>{
             const getProblems = async()=>{
@@ -57,15 +70,15 @@ function ProblemList() {
                         {problem.title}
                     <div className='flex justify-around  w-1/5'>
                     <Link to={`../submit/${problem.title}`}> <FaPlay onClick={()=>handleSubmit(problem.title)}/></Link>
-                    <Link to={`../updateProblem/${problem.title}`}><MdEdit /></Link>
-                    <button onClick={()=>handleDelete(problem.title)}><MdDelete /></button>
+                    {isAdmin?<Link to={`../updateProblem/${problem.title}`}><MdEdit /></Link>:''}
+                    {isAdmin?<button onClick={()=>handleDelete(problem.title)}><MdDelete /></button>:''}
                     </div>
                 </div>
                 ))
             }
-            <div className='text-center mt-5'>
+           {isAdmin?<div className='text-center mt-5'>
             <Link to={`../addProblem`}><button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add Problem</button></Link>
-            </div>
+            </div>:''}
          </div>
          
         </>

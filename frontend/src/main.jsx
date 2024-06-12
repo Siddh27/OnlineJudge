@@ -13,6 +13,7 @@ import AddProblem from './components/AddProblem.jsx'
 import UpdateProblem from './components/UpdateProblem.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
 import UpdateProfile from './components/UpdateProfile.jsx'
+import AdminDashBoard from './components/AdminDashBoard.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
           <Route path='updateProblem/:title' element={<UpdateProblem/>}></Route>
           <Route path='profile' element={<ProfilePage/>}></Route>
           <Route path='updateProfile' element={<UpdateProfile/>}></Route>
+          <Route path='adminDashboard' element={<AdminDashBoard/>}></Route>
       </Route>
     </Route>
 

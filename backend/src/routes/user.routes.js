@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { registerUser ,loginUser, logoutUser, changeCurrentPassword, refreshAcessToken, getCurrentUser, updateAccountDetails } from "../controllers/user.controllers.js"
+import { registerUser ,loginUser, logoutUser, changeCurrentPassword, refreshAcessToken, getCurrentUser, updateAccountDetails, getAllUsers, toggleAdmin } from "../controllers/user.controllers.js"
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 import { createUpdateDetails, problemUpdateDetails } from "../middlewares/update.middleware.js";
@@ -27,7 +27,8 @@ router.route('/changePassword').post(verifyJWT,changeCurrentPassword)
 router.route('/refreshAccessToken').post(refreshAcessToken)
 router.route('/getUser').get(verifyJWT,getCurrentUser)
 router.route('/updateUserDetails').patch(verifyJWT,createUpdateDetails,updateAccountDetails)
-
+router.route('/getAllUsers').get(verifyJWT,getAllUsers)
+router.route('/adminToggle').post(verifyJWT,toggleAdmin)
 
 // problem routes
 router.route('/addProblem').post(verifyJWT,addProblem)
@@ -36,5 +37,6 @@ router.route('/getProblem').get(verifyJWT,getProblem)
 router.route('/deleteProblem').delete(verifyJWT,deleteProblem)
 router.route('/runProblem').post(verifyJWT,runProblem)
 router.route('/getAllProblems').get(verifyJWT,getAllProblems)
+
 
 export default router
