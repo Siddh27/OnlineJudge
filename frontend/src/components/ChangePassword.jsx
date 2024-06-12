@@ -16,6 +16,10 @@ function ChangePassword() {
     }   
 
     const handleSubmit = async()=>{
+        if(!oldPassword || !newPassword){
+            window.alert('Both fields are required!')
+            return;
+        }
         try {
             let url  = `http://localhost:8000/api/v1/users/changePassword`
             let response = await axios.post(url,{oldPassword,newPassword},{withCredentials:true})
