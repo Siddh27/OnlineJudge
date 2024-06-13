@@ -3,7 +3,7 @@
 <p id="description">Online Judge Platform where users can solve Data Structures and Algorithms problems</p>
 
 <h2>Project Screenshots:</h2>
-
+<img src="https://snipboard.io/sDKeHX.jpg" alt="project-screenshot" width="900" >
   
 <h2>🧐 Features</h2>
 
