@@ -1,0 +1,17 @@
+{
+    "routes": [
+      { "handle": "filesystem" },
+      {
+        "src": "/",
+        "status": 302,
+        "headers": {
+          "Location": "/signup"
+        }
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
+      }
+    ]
+  }
+  
