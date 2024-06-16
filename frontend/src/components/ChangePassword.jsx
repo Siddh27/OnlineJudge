@@ -21,7 +21,7 @@ function ChangePassword() {
             return;
         }
         try {
-            let url  = `http://localhost:8000/api/v1/users/changePassword`
+            let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/changePassword`
             let response = await axios.post(url,{oldPassword,newPassword},{withCredentials:true})
             window.alert(response.data.message)
             navigate('../profile')

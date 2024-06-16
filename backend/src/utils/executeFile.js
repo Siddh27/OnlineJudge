@@ -16,12 +16,12 @@ if(!fs.existsSync(dirCodes)){
 
 const executeCpp = (filePath,inputPath)=>{
     const jobId = path.basename(filePath).split('.')[0];
-    const outputFileName = `${jobId}.exe`
+    const outputFileName = `${jobId}.out`
     const outputPath = path.join(dirCodes,outputFileName)
     // console.log(inputPath);
     return new Promise((res,reject)=>{
         exec(
-        `g++ ${filePath} -o ${outputPath} && cd ${dirCodes} && .\\${outputFileName} < ${inputPath}`,
+        `g++ ${filePath} -o ${outputPath} && cd ${dirCodes} && ./${outputFileName} < ${inputPath}`,
         (error,stdout,stderr)=>{
             if(fs.existsSync(filePath)){
                 fs.unlinkSync(filePath)

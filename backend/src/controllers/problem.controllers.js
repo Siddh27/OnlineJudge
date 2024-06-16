@@ -163,7 +163,7 @@ const addSubmission = asyncHandler(async(req,res)=>{
 })
 
 const getProblemAuthor = asyncHandler(async (req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     const userid = req.body.authorId
     const user = await User.findById(userid)
     res.status(200).json(new ApiResponse(200,user.username,"success"))

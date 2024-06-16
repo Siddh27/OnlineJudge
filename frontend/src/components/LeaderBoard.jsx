@@ -5,7 +5,7 @@ function LeaderBoard() {
     const [users,setUsers] = useState([{}])
     useEffect(()=>{
         const fetchUserData = async(req,res)=>{
-            let url  = `http://localhost:8000/api/v1/users/getAllUsers`
+            let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getAllUsers`
             const response = await axios.get(url,{
                 withCredentials:true
             })

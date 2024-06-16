@@ -22,7 +22,7 @@ function SignUp() {
 
     const registerButtonRef = useRef()
 
-    const registerURL = 'http://localhost:8000/api/v1/users/register'
+    const registerURL = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/register`
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
