@@ -3,8 +3,19 @@
 <p id="description">Online Judge Platform where users can solve Data Structures and Algorithms problems</p>
 
 <h2>Project Screenshots:</h2>
-<img src="https://snipboard.io/sDKeHX.jpg" alt="project-screenshot" width="900" >
-  
+<img src="https://snipboard.io/sDKeHX.jpg" alt="project-screenshot" width="900">
+<img src="https://snipboard.io/RL09xo.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/r6IEwo.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/JPNklR.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/BJIEqp.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/HINJuB.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/I8o95j.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/lWB0K1.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/6TNx8X.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/H7MrFV.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/hfB2rk.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/0iTofa.jpg" alt="project-screenshot" width="900" >
+<img src="https://snipboard.io/IKM672.jpg" alt="project-screenshot" width="900" >
 <h2>🧐 Features</h2>
 
 Here're some of the project's best features:

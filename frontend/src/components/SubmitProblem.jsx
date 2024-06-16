@@ -76,12 +76,14 @@ function SubmitProblem() {
                 withCredentials:true
             })
             problem = response.data.data
+            let url2 = `http://localhost:8000/api/v1/users/getProblemAuthor`
+            const result = await axios.post(url2,{authorId:problem.author},{withCredentials:true})
+            setData({...problem,author:result.data.data})
             setProblemId(response.data.data._id)
             if(response && response.status==200){
                 const getUser = await axios.get(`http://localhost:8000/api/v1/users/getUser`,{
                 withCredentials:true
                  })
-                setData({...problem,author:getUser.data.data.username})
                 setInputTestCases(problem.inputTestCases)
                 setOutputTestCases(problem.outputTestCases)
                 setUser(getUser.data.data)

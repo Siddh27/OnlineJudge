@@ -35,9 +35,9 @@ const registerUser = asyncHandler( async (req,res)=>{
     // return response
 
     
-    const {fullName,email,username,password,age,organization,github,linkedIn} =req.body
+    const {fullName,email,username,password,age,organization,github,linkedIn,coverImage,resume} =req.body
 
-    console.log(req.body)
+    
     // validation will add zod validation
     if(
         [fullName,email,username,password,organization].some((field)=>
@@ -55,30 +55,30 @@ const registerUser = asyncHandler( async (req,res)=>{
         return
     }
     
-    let coverImageLocalPath;
-    if(req.files?.coverImage){
-       coverImageLocalPath = req.files?.coverImage[0]?.path
-    }
-    let resumeLocalPath;
-    if(req.files && Array.isArray(req.files.resume) && req.files.resume.length >0){
-        resumeLocalPath = req.files.resume[0].path;
-    }
-    let coverImage;
-    if (coverImageLocalPath) {
-        coverImage = await uploadOnCloudinary(coverImageLocalPath)
-    } 
-    let resume;
-    if (resumeLocalPath) {
-        resume = await uploadOnCloudinary(resumeLocalPath)
-    }
-    let flag1=false
-    let flag2=false
-    if(resume) flag1=true
-    if(coverImage) flag2=true;
+    // let coverImageLocalPath;
+    // if(req.files?.coverImage){
+    //    coverImageLocalPath = req.files?.coverImage[0]?.path
+    // }
+    // let resumeLocalPath;
+    // if(req.files && Array.isArray(req.files.resume) && req.files.resume.length >0){
+    //     resumeLocalPath = req.files.resume[0].path;
+    // }
+    // let coverImage;
+    // if (coverImageLocalPath) {
+    //     coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    // } 
+    // let resume;
+    // if (resumeLocalPath) {
+    //     resume = await uploadOnCloudinary(resumeLocalPath)
+    // }
+    // let flag1=false
+    // let flag2=false
+    // if(resume) flag1=true
+    // if(coverImage) flag2=true;
     const user = await User.create({
         fullName,
-        resume:flag1?resume.url:"" , //|| "",
-        coverImage:flag2?coverImage.url:"",
+        resume:resume||"" , //|| "",
+        coverImage:coverImage||"",
         email,
         password,
         age:age || "",
@@ -277,6 +277,7 @@ const updateAccountDetails = asyncHandler(async (req,res)=>{
 
 
 const toggleAdmin = asyncHandler(async(req,res)=>{
+    
     const id = req.body.id
     const currentAdminState = req.body.isAdmin
     const user = await User.findByIdAndUpdate({

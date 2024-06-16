@@ -48,8 +48,8 @@ function ProfilePage() {
             </div>
         <div className="container flex mx-auto  h-3/4 rounded-lg shadow-lg bg-blue-900">
             <div className=" w-1/3 ">
-                <div className=" w-2/4 h-1/4 mt-4 mx-auto">
-                    <img  className = 'w-full  h-full object-cover' src={data.coverImage?data.coverImage:blankProfile} alt="" />
+                <div className=" w-2/4 h-1/4 mt-4 mx-auto overflow-auto">
+                    <img  className = 'w-full  h-full object-cover overflow-auto' src={data.coverImage?data.coverImage:blankProfile} alt="Image not viewable pls check if directly viewable through link"/>
                 </div>
                 <div className="text-center overflow-auto pt-5 text-xl font-bold italic">
                     LinkedIn
@@ -62,6 +62,8 @@ function ProfilePage() {
                     <div className="text-white">
                         <a className="underline"  target="_blank" href={`https://${data.github}`}>{data.github}</a>
                     </div>
+                </div>
+                <div className=" w-2/4 h-1/4 mt-4 mx-auto">
                 </div>
             </div>
             <div className="  w-2/3 ">

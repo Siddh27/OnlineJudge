@@ -11,12 +11,13 @@ function SignUp() {
         email:"",
         github:"",
         linkedIn:"",
-        password:""
+        password:"",
+        coverImage:"",
     })
 
     const requiredTofill = ['fullName','email','username','password']
+    
 
-    const [coverImage,setCoverImage] = useState(null)
     const navigate = useNavigate()
 
     const registerButtonRef = useRef()
@@ -32,6 +33,11 @@ function SignUp() {
            }
         }
         try {
+            const config = {
+                headers: {
+                  'content-type': 'multipart/form-data',
+                },
+              };
             const  response= await axios.post(registerURL,{...data});
             if(response){
                 window.alert(response.data.message)
@@ -48,6 +54,7 @@ function SignUp() {
                 github:"",
                 linkedIn:"",
                 password:"",
+                coverImage:""
             })
             navigate('/login')
         } catch (error) {
@@ -62,12 +69,10 @@ function SignUp() {
                 [input.name]:input.value
             }
         ))
-        
     }
 
-    const handleFileChange = (e) =>{
-        setCoverImage(e.target.files[0])
-    }
+   
+    
 
    
 
@@ -157,15 +162,13 @@ function SignUp() {
                         value={data.github}
                         onChange={handleChange}
                         />
-                        <label htmlFor="coverImage" className='pr-2'>Cover Image</label>
-                        <input 
-                        type="file"
-                         name="coverImage" 
-                         id="coverImage" 
-                         className="mt-2"
-                         value={data.coverImage} 
-                         onChange={handleFileChange}
-                         />
+                        <input type="text" 
+                        placeholder='Profile Image url it should be viewable'
+                        className='border border-gray-400 py-1 px-2 w-full'
+                        name='coverImage'
+                        value={data.coverImage}
+                        onChange={handleChange}
+                        />
                         </div>
                         <div className="mt-5">
                             <button ref={registerButtonRef} onClick={handleSubmit} className='w-full bg-yellow-300 py-3 text-center text-white'>Register</button>

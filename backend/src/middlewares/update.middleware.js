@@ -4,13 +4,14 @@ import { ApiError } from "../utils/ApiError.js";
 
 export const createUpdateDetails = asyncHandler(async (req,_,next)=>{
 
-    const {age,username,github,organization,fullName,linkedIn}= req.body
+    const {age,username,github,organization,fullName,linkedIn,coverImage}= req.body
     const updateData = {};
     if (age) updateData.age = age;
     if (organization) updateData.organization = organization;
     if (github) updateData.github = github;
     if (linkedIn) updateData.linkedIn = linkedIn;
     if(fullName) updateData.fullName=fullName
+    if(coverImage) updateData.coverImage=coverImage
     req.updateDetails = updateData
     // console.log(req.updateDetails);
     next()

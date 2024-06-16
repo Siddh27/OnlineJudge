@@ -94,6 +94,9 @@ function UpdateProfile() {
               <div className=' text-white  w-1/2 mb-5 text-lg'>
                 <input name='github' value={data.github} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Github URL' />
               </div>
+              <div className=' text-white  w-1/2 mb-5 text-lg'>
+                <input name='coverImage' value={data.coverImage} onChange={handleChange}className='bg-customDark inline-block p-2 m-2 rounded-lg shadow-lg' placeholder='Profile Image URL' />
+              </div>
            </div>
            <div className='text-white ml-2  mb-5 text-lg text-center'>
               <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={handleSumbit}>Update Profile <CiEdit className='inline text-xl' /></button>
