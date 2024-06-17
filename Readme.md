@@ -2,6 +2,10 @@
 <p align="center"><img src="https://socialify.git.ci/Siddh27/OnlineJudge/image?description=1&amp;descriptionEditable=CodeEffort&amp;language=1&amp;name=1&amp;owner=1&amp;theme=Light" alt="project-image"></p>
 <p id="description">Online Judge Platform where users can solve Data Structures and Algorithms problems</p>
 
+
+<h2>Demo Video:</h2>
+<a href="https://www.loom.com/share/36e78fde94ef44c7a3530c772fa37810?sid=d0dfbba7-362b-4811-91ef-a612f21cc54f">Demo Link</a>
+
 <h2>Project Screenshots:</h2>
 <img src="https://snipboard.io/sDKeHX.jpg" alt="project-screenshot" width="900">
 <img src="https://snipboard.io/RL09xo.jpg" alt="project-screenshot" width="900" >
