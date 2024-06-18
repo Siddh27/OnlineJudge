@@ -71,17 +71,17 @@ function SubmitProblem() {
     const [user,setUser] = useState({})
     useEffect(()=>{
         const fetchData = async()=>{
-            let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getProblem?title=${title}`
+            let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getProblem?title=${title}`
             const response = await axios.get(url,{
                 withCredentials:true
             })
             problem = response.data.data
-            let url2 = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getProblemAuthor`
+            let url2 = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getProblemAuthor`
             const result = await axios.post(url2,{authorId:problem.author},{withCredentials:true})
             setData({...problem,author:result.data.data})
             setProblemId(response.data.data._id)
             if(response && response.status==200){
-                const getUser = await axios.get(`http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getUser`,{
+                const getUser = await axios.get(`https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getUser`,{
                 withCredentials:true
                  })
                 setInputTestCases(problem.inputTestCases)
@@ -108,7 +108,7 @@ function SubmitProblem() {
         setOutput('')
         handleOutput()
         try {
-            let url = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/runProblem`
+            let url = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/runProblem`
             const response = await axios.post(url,{code,language,input},{
                 withCredentials: true // Important: Include credentials
               });
@@ -154,7 +154,7 @@ function SubmitProblem() {
         handleVerdict()
         setVerdict(false)
         try {
-            let url = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/runProblem`
+            let url = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/runProblem`
             let inputArr =  inputTestCases.split('\n')
             let outputArr = outputTestCases.split('\n')
             for(let i=0;i<inputArr.length;i++){
@@ -186,7 +186,7 @@ function SubmitProblem() {
                 }
             }
             setVerdict(true)
-            const submission = await axios.post(`http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/addSubmission`,{user:user._id,verdict:true,problem:problemId},{withCredentials:true})
+            const submission = await axios.post(`https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/addSubmission`,{user:user._id,verdict:true,problem:problemId},{withCredentials:true})
             // console.log(user._id,problemId)
         } catch (error) {
             handleOutput()

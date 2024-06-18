@@ -10,7 +10,7 @@ function UpdateProfile() {
 
   useEffect(()=>{
     const fetchUserData = async(req,res)=>{
-        let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getUser`
+        let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getUser`
         const response = await axios.get(url,{
             withCredentials:true
         })
@@ -44,7 +44,7 @@ function UpdateProfile() {
     const handleSumbit = async()=>{
         const confirm = window.confirm('Are you sure you want to update your profile?')
         if(!confirm) return;
-        let url = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/updateUserDetails`
+        let url = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/updateUserDetails`
         const response= await axios.patch(url,{...data},{
           withCredentials: true // Important: Include credentials
         });

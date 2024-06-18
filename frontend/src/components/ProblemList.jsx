@@ -15,7 +15,7 @@ function ProblemList() {
 
         useEffect(()=>{
             const fetchUserData = async(req,res)=>{
-                let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getUser`
+                let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getUser`
                 const response = await axios.get(url,{
                     withCredentials:true
                 })
@@ -26,7 +26,7 @@ function ProblemList() {
 
         useEffect(()=>{
             const getProblems = async()=>{
-                let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getAllProblems`
+                let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getAllProblems`
                 const response = await axios.get(url,{
                     withCredentials:true
                 })
@@ -43,7 +43,7 @@ function ProblemList() {
         const answer = window.confirm('Are you sure you want to delete this problem it cannot be recovered later!')
         try {
             if(answer){
-                let deleteURL = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/deleteProblem`
+                let deleteURL = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/deleteProblem`
                 const response = await axios.delete(deleteURL,{data:{title:title},withCredentials:true})
                 if(response && response.status==200){
                     console.log(response.status)

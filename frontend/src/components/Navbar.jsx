@@ -12,7 +12,7 @@ function Navbar() {
     const [isAdmin,setIsAdmin] = useState(false)
     useEffect(()=>{
         const fetchUserData = async(req,res)=>{
-            let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getUser`
+            let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getUser`
             const response = await axios.get(url,{
                 withCredentials:true
             })
@@ -31,7 +31,7 @@ function Navbar() {
     const handleLogout = async()=>{
         const answer = window.confirm('Are you sure you want to logout')
         if(answer){
-            let logoutURL = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/logout`;
+            let logoutURL = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout`;
             const response = await axios.post(logoutURL,{},{
                 withCredentials: true // Important: Include credentials
               });

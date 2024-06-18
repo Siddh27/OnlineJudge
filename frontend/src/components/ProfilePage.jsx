@@ -24,7 +24,7 @@ function ProfilePage() {
 
     useEffect(()=>{
         const fetchUserData = async(req,res)=>{
-            let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getUser`
+            let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getUser`
             const response = await axios.get(url,{
                 withCredentials:true
             })

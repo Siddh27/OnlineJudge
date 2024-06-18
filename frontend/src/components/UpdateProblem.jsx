@@ -26,12 +26,12 @@ function UpdateProblem() {
 
    useEffect(()=>{
     const fetchData = async()=>{
-        let url  = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getProblem?title=${title}`
+        let url  = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getProblem?title=${title}`
         const response = await axios.get(url,{
             withCredentials:true
         })
         if(response && response.status==200){
-            const getUser = await axios.get(`http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/getUser`,{
+            const getUser = await axios.get(`https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/getUser`,{
             withCredentials:true
              })
             const problem = response.data.data
@@ -56,7 +56,7 @@ function UpdateProblem() {
             window.alert('Author is required and it has to be username same as created ')
             return;
         }
-        let url = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/updateProblem`
+        let url = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/updateProblem`
         const response= await axios.patch(url,{...data},{
             withCredentials: true // Important: Include credentials
             

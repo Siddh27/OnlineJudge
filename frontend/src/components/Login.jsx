@@ -12,7 +12,7 @@ function Login() {
 
     const loginButtonRef = useRef()
 
-    const loginURL = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/login`
+    const loginURL = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/login`
 
     const handleSubmit = async(e)=>{
         e.preventDefault()

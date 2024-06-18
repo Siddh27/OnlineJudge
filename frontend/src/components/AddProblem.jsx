@@ -26,7 +26,7 @@ function AddProblem() {
                 return;
             }   
         }
-        let url = `http://${import.meta.env.VITE_BACKEND_URL}:8000/api/v1/users/addProblem`
+        let url = `https://${import.meta.env.VITE_BACKEND_URL}/api/v1/users/addProblem`
         const response= await axios.post(url,{...data},{
             withCredentials: true // Important: Include credentials
           });
